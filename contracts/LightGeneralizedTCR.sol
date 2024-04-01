@@ -594,7 +594,8 @@ contract LightGeneralizedTCR is IArbitrable, IEvidence {
 
         if (sumDeposit > 0) {
             // reimburse the requester
-            request.requester.send(sumDeposit);
+            (bool success, ) = request.requester.call.value(sumDeposit)("");
+            require(success, "Reimbursement transfer failed");
         }
     }
 
